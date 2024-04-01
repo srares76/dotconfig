@@ -9,3 +9,4 @@ end
 
 -- Apply colors when colorscheme is loaded
 vim.cmd([[autocmd ColorScheme * lua ApplyColors()]])
+vim.cmd [[colorscheme tokyonight]]

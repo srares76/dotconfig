@@ -1,6 +1,6 @@
 [font]
 size = 15
-
+normal = { family = "FiraCode Nerd Font Mono", style = "Regular" }
 
 [window]
 decorations = "Buttonless"

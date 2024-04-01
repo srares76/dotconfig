@@ -19,6 +19,23 @@ return require('packer').startup(function(use)
         "williamboman/mason.nvim"
     }
 
+    use {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+        config = function()
+            vim.cmd('colorscheme tokyonight')
+        end
+
+    }
+
+    use { "folke/noice.nvim",
+        opts = function(_, opts)
+            opts.presets.lsp_doc_border = true
+        end
+    }
+
     -- Telescope
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.5',
@@ -33,25 +50,20 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- Github Theme
-    use({
-        'projekt0n/github-nvim-theme',
-        config = function()
-            require('github-theme').setup({
-                -- ...
-            })
-
-            vim.cmd('colorscheme github_dark')
-        end
-    })
-
+    -- -- Github Theme
     -- use({
-    --     "tiagovla/tokyodark.nvim",
-    --     config = function(_, opts)
-    --         require("tokyodark").setup(opts) -- calling setup is optional
-    --         vim.cmd [[colorscheme tokyodark]]
-    --     end,
+    --     'projekt0n/github-nvim-theme',
+    --     config = function()
+    --         require('github-theme').setup({
+    --             -- ...
+    --         })
+
+    --         vim.cmd('colorscheme github_dark')
+    --     end
     -- })
+
+    use('nvim-tree/nvim-tree.lua')
+    use('kyazdani42/nvim-web-devicons')
 
     -- Treesitter
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -81,6 +93,7 @@ return require('packer').startup(function(use)
     })
 
     use("nvim-treesitter/nvim-treesitter-context");
+    use("nvim-treesitter/nvim-treesitter-context");
 
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -98,10 +111,12 @@ return require('packer').startup(function(use)
             { 'saadparwaiz1/cmp_luasnip' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lua' },
+            { 'f3fora/cmp-spell' },
+            { 'hrsh7th/cmp-nvim-lsp-signature-help' },
 
             -- Snippets
             { 'L3MON4D3/LuaSnip' },
-            { 'rafamadriz/friendly-snippets' },
+            { 'rafamadriz/friendly-snippets' }
         }
     }
 
@@ -127,6 +142,10 @@ return require('packer').startup(function(use)
 
     -- Test Runner (Jester)
     use("David-Kunz/jester")
+
+    use("echasnovski/mini.hipatterns")
+
+    use("itchyny/vim-cursorword")
 
     if packer_bootstrap then
         require('packer').sync()

@@ -18,7 +18,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-j>"] = cmp.mapping.complete(),
 })
 
 cmp_mappings['<Tab>'] = nil
@@ -50,6 +50,7 @@ lsp.on_attach(function(_, bufnr)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.knnmap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set("i", "<C-r>r", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
 lsp.setup()
@@ -57,3 +58,29 @@ lsp.setup()
 vim.diagnostic.config({
     virtual_text = true
 })
+
+function organize_imports()
+    local params = {
+        command = "_typescript.organizeImports",
+        arguments = { vim.api.nvim_buf_get_name(0) },
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+end
+
+local lspconfig = require('lspconfig')
+lspconfig.tsserver.setup({
+    on_attach = function(client, _)
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+    end,
+    capabilities = lsp.capabilities,
+    commands = {
+        OrganizeImports = {
+            organize_imports,
+            description = "Organize Imports"
+        }
+    }
+})
+
+vim.keymap.set("n", "<leader>fo", "<cmd>lua organize_imports()<CR>")
