@@ -140,12 +140,33 @@ return require('packer').startup(function(use)
     }
     use("windwp/nvim-ts-autotag")
 
-    -- Test Runner (Jester)
-    use("David-Kunz/jester")
+    -- Test Runner
+    use {
+        "nvim-neotest/neotest",
+        requires = {
+            "nvim-neotest/nvim-nio",
+            "nvim-neotest/neotest-jest",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter"
+        }
+    }
 
     use("echasnovski/mini.hipatterns")
 
     use("itchyny/vim-cursorword")
+
+    use("OmniSharp/omnisharp-vim")
+
+    use("jose-elias-alvarez/typescript.nvim")
+
+    use({
+        'glepnir/lspsaga.nvim',
+        after = 'nvim-lspconfig',
+        config = function()
+            require('lspsaga').setup({})
+        end,
+    })
 
     if packer_bootstrap then
         require('packer').sync()

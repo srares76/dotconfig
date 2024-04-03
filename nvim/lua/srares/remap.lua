@@ -2,8 +2,8 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>x", vim.cmd.Ex)
 
 -- Move rows
-vim.keymap.set("v", "J", ":m '>+3<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<0<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Life improvements
 vim.keymap.set("n", "J", "mzJ`z")
@@ -25,20 +25,20 @@ vim.keymap.set("n", "S", [["+S]])
 vim.keymap.set("n", "dd", [["_dd]])
 vim.keymap.set({ "n", "v" }, "p", [["+pgvy]])
 
--- Format File
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
-
 -- Save File
 vim.keymap.set("n", "<leader>s", function()
-    vim.lsp.buf.format()
-    vim.cmd("w")
-
-    -- if prettier can be loaded, format the file
     local status, prettier = pcall(require, "prettier")
     if status then
         prettier.format()
     end
+    vim.cmd("w")
 end)
+
+vim.keymap.set("n", "<leader>F", function()
+    vim.lsp.buf.format()
+    vim.cmd("w")
+end)
+
 
 
 -- Navigation
@@ -58,3 +58,5 @@ vim.keymap.set("n", "<D-z>", "u")
 
 -- Select all
 vim.keymap.set("n", "<M-a>", "gg<S-v>G")
+
+vim.keymap.set("i", "<Esc>", "<C-c>")
