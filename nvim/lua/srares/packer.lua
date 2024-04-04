@@ -128,7 +128,12 @@ return require('packer').startup(function(use)
     use("github/copilot.vim")
 
     -- Commentary
-    use("tpope/vim-commentary")
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 
     -- Auto Pairs
     use {
@@ -159,6 +164,8 @@ return require('packer').startup(function(use)
     use("OmniSharp/omnisharp-vim")
 
     use("jose-elias-alvarez/typescript.nvim")
+
+    use("luochen1990/rainbow")
 
     use({
         'glepnir/lspsaga.nvim',
