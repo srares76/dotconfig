@@ -63,7 +63,6 @@ return {
             require("nvim-autopairs").setup {}
         end
     },
-    ("windwp/nvim-ts-autotag"),
 
     -- Test Runner
     {
@@ -77,11 +76,12 @@ return {
         }
     },
 
+    "windwp/nvim-ts-autotag",
     "theprimeagen/harpoon",
     "echasnovski/mini.hipatterns",
     "itchyny/vim-cursorword",
     "jose-elias-alvarez/typescript.nvim",
     "luochen1990/rainbow",
     "github/copilot.vim",
-    asd
+    "luochen1990/rainbow"
 }

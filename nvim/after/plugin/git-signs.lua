@@ -2,7 +2,7 @@ require('gitsigns').setup {
     signs                        = {
         add          = { text = '▌' },
         change       = { text = '▌' },
-        delete       = { text = '_' },
+        delete       = { text = '▌' },
         topdelete    = { text = '‾' },
         changedelete = { text = '~' },
         untracked    = { text = '┆' },
@@ -51,14 +51,14 @@ require('gitsigns').setup {
         end
 
         -- Navigation
-        map('n', ']c', function()
-            if vim.wo.diff then return ']c' end
+        map('n', ']h', function()
+            if vim.wo.diff then return ']h' end
             vim.schedule(function() gs.next_hunk() end)
             return '<Ignore>'
         end, { expr = true })
 
-        map('n', '[c', function()
-            if vim.wo.diff then return '[c' end
+        map('n', '[h', function()
+            if vim.wo.diff then return '[h' end
             vim.schedule(function() gs.prev_hunk() end)
             return '<Ignore>'
         end, { expr = true })
