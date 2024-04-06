@@ -76,6 +76,8 @@ return {
         }
     },
 
+    --[[ Rares_HelloThereTesting :)  ]]
+
     "windwp/nvim-ts-autotag",
     "theprimeagen/harpoon",
     "echasnovski/mini.hipatterns",
@@ -83,5 +85,6 @@ return {
     "jose-elias-alvarez/typescript.nvim",
     "luochen1990/rainbow",
     "github/copilot.vim",
-    "luochen1990/rainbow"
+    "luochen1990/rainbow",
+    "chaoren/vim-wordmotion",
 }

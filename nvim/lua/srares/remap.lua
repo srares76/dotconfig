@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.wordmotion_prefix = "<leader>"
 vim.keymap.set("n", "<leader>x", vim.cmd.Ex)
 
 -- Move rows

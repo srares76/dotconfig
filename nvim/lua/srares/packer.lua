@@ -10,5 +10,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
+-- Set camelcasemotion_key
+_G.camelcasemotion_key = '<leader>'
+
+-- Other configurations or settings can go here
+
 
 return require('lazy').setup('plugins')

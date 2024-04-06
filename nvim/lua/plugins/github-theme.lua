@@ -55,7 +55,7 @@ return {
         vim.cmd([[highlight Comment guifg=#00FF00]])
         vim.cmd([[highlight LineNr guifg=#FFFF00 ctermfg=yellow]])
         vim.cmd([[highlight Normal guibg=none]])
-        vim.cmd([[highlight SignColumn guibg=none]])
+        -- vim.cmd([[highlight SignColumn guibg=none]])
         vim.cmd('colorscheme github_dark')
     end,
 }
