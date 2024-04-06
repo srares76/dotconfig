@@ -76,8 +76,6 @@ return {
         }
     },
 
-    --[[ Rares_HelloThereTesting :)  ]]
-
     "windwp/nvim-ts-autotag",
     "theprimeagen/harpoon",
     "echasnovski/mini.hipatterns",
