@@ -11,3 +11,6 @@ end
 -- Apply colors when colorscheme is loaded
 vim.cmd([[autocmd ColorScheme * lua ApplyColors()]])
 vim.cmd [[colorscheme github_dark]]
+
+-- This shouldn't be here but I'm too lazy to make a separate file for it
+vim.cmd [[Copilot disable]]

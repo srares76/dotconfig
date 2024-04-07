@@ -1,14 +1,5 @@
 return {
-    'nvimdev/lspsaga.nvim',
-    config = function()
-        require('lspsaga').setup({
-            outline = {
-                highlight = 'LspSagaTSClass',
-                close_after_jump = true,
-                auto_close = true
-            }
-        })
-    end,
+    'kkharji/lspsaga.nvim',
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
         'nvim-tree/nvim-web-devicons'
