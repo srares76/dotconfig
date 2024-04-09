@@ -3,7 +3,7 @@ vim.keymap.set("n", "<leader>gs", function ()
 end)
 
 vim.keymap.set("n", "<leader>gds", function ()
-    vim.cmd("Gvdiffsplit")
+    vim.cmd("Gvdiffsplit!")
 end)
 vim.keymap.set("n", "<leader>gb", function ()
     vim.cmd("G branch")
