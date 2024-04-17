@@ -3,11 +3,13 @@ return {
 
     -- File Tree
     'nvim-tree/nvim-tree.lua',
-    'kyazdani42/nvim-web-devicons',
 
     -- Fugitive (Git)
     'tpope/vim-fugitive',
     'lewis6991/gitsigns.nvim',
+
+    -- Undo tree
+    'mbbill/undotree',
 
     -- LuaLine
     'hoob3rt/lualine.nvim',
