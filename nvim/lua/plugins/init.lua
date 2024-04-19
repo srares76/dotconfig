@@ -79,7 +79,11 @@ return {
     },
 
     "windwp/nvim-ts-autotag",
-    "theprimeagen/harpoon",
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" }
+    },
     "echasnovski/mini.hipatterns",
     "itchyny/vim-cursorword",
     "jose-elias-alvarez/typescript.nvim",
