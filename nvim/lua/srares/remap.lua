@@ -19,7 +19,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "Q", "<nop>")
 
 vim.keymap.set("n", "dd", [["_dd]])
-vim.keymap.set({"v" }, "p", [["+pgvy]], { noremap = true })
+vim.keymap.set({ "v" }, "p", [["+pgvy]], { noremap = true })
 
 -- Save File
 vim.keymap.set("n", "<leader>s", function()
