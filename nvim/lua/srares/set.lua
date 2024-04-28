@@ -1,5 +1,4 @@
 vim.opt.nu = true
-vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -30,3 +29,13 @@ vim.opt.updatetime = 49
 
 vim.opt.clipboard:append('unnamedplus')
 
+vim.api.nvim_create_autocmd('InsertEnter',  {
+    callback= function()
+        vim.opt.relativenumber = false
+    end,
+})
+vim.api.nvim_create_autocmd('InsertLeavePre',  {
+    callback= function()
+        vim.opt.relativenumber = true
+    end,
+})
