@@ -53,3 +53,4 @@ vim.keymap.set("n", "<D-z>", "u")
 vim.keymap.set("n", "<M-a>", "gg<S-v>G")
 
 vim.keymap.set("i", "<Esc>", "<C-c>")
+

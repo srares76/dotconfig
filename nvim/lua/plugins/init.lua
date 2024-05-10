@@ -4,10 +4,6 @@ return {
     -- File Tree
     'nvim-tree/nvim-tree.lua',
 
-    -- Fugitive (Git)
-    'tpope/vim-fugitive',
-    'lewis6991/gitsigns.nvim',
-
     -- Undo tree
     'mbbill/undotree',
 
@@ -91,4 +87,17 @@ return {
     "github/copilot.vim",
     "luochen1990/rainbow",
     "chaoren/vim-wordmotion",
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+
+    -- Git integration
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "sindrets/diffview.nvim",
+            "nvim-telescope/telescope.nvim",
+        },
+        config = true
+    },
+    'lewis6991/gitsigns.nvim',
 }

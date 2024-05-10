@@ -7,6 +7,4 @@ vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
 vim.keymap.set('v', '<leader>fm', builtin.grep_string, {})
 vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
-require('telescope').setup {
-    shorten_path = true,
-}
+require('telescope').load_extension('fzf')
