@@ -2,20 +2,38 @@ return {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.5',
     -- or                            , branch = '0.1.x',
-    dependencies = { { 'nvim-lua/plenary.nvim' } },
+    dependencies = {
+        { 'nvim-lua/plenary.nvim' },
+        {
+            "nvim-telescope/telescope-live-grep-args.nvim",
+            version = "^1.0.0",
+        },
+    },
     config = function()
-        require('telescope').setup {
+        local telescope = require("telescope")
+        local lga_actions = require("telescope-live-grep-args.actions")
+
+        telescope.setup {
             defaults = {
                 path_display = { 'shorten' },
                 prompt_prefix = " "
             },
             extensions = {
                 fzf = {
-                    fuzzy = true,     -- false will only do exact matching
-                    override_generic_sorter = true, -- override the generic sorter
-                    override_file_sorter = true, -- override the file sorter
-                    case_mode = "ignore_case", -- or "ignore_case" or "respect_case"
-                }                     -- the default case_mode is "smart_case"                }
+                    fuzzy = true,
+                    override_generic_sorter = true,
+                    override_file_sorter = true,
+                    case_mode = "ignore_case",
+                },
+                live_grep_args = {
+                    auto_quoting = true,
+                    mappings = {
+                        i = {
+                            ["<C-k>"] = lga_actions.quote_prompt({ postfix = " -F " }),
+                            ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                        },
+                    },
+                }
             }
         }
     end

@@ -58,7 +58,7 @@ return {
             vim.keymap.set("n", "<leader>tx", function()
                 neotest.run.stop() -- Stop
             end)
-            vim.keymap.set("n", "<leader>tco", function()
+            vim.keymap.set("n", "<leader>t0", function()
                 neotest.output_panel.clear() -- Clear Output Panel
             end)
         end,
