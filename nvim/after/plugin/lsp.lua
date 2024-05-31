@@ -6,7 +6,7 @@ lsp.preset("recommended")
 vim.keymap.set("n", "<leader>mi", [[:Mason<CR>]])
 
 
-lsp.ensure_installed({ 'tsserver' })
+lsp.ensure_installed({ 'tsserver', 'tailwindcss' })
 
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
@@ -71,6 +71,7 @@ function organize_imports()
 end
 
 local lspconfig = require('lspconfig')
+lspconfig.tailwindcss.setup {}
 lspconfig.tsserver.setup({
     on_attach = function(client, _)
         client.resolved_capabilities.document_formatting = false
