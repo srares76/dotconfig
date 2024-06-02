@@ -2,7 +2,9 @@ return {
     "williamboman/mason.nvim",
 
     -- File Tree
-    'nvim-tree/nvim-tree.lua',
+    { 'nvim-tree/nvim-tree.lua' },
+
+    { 'nvim-tree/nvim-web-devicons' },
 
     -- Undo tree
     'mbbill/undotree',

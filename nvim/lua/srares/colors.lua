@@ -5,7 +5,6 @@ function ApplyColors()
     vim.cmd([[highlight LineNr guifg=#FFFF00 ctermfg=yellow]])
     vim.cmd([[highlight Normal guibg=none]])
     vim.cmd([[highlight SignColumn guibg=none]])
-    -- vim.cmd([[highlight NormalFloat guibg=none]])
 end
 
 -- Apply colors when colorscheme is loaded

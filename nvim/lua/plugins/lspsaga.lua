@@ -1,7 +1,15 @@
 return {
-    'kkharji/lspsaga.nvim',
+    'nvimdev/lspsaga.nvim',
+    config = function()
+        require('lspsaga').setup({
+            rename = {
+                auto_save = true
+            }
+        })
+    end,
     dependencies = {
-        'nvim-treesitter/nvim-treesitter',
-        'nvim-tree/nvim-web-devicons'
+        'nvim-treesitter/nvim-treesitter', -- optional
+        'nvim-tree/nvim-web-devicons',     -- optional
     }
 }
+
