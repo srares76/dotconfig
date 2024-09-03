@@ -2,5 +2,10 @@
     "diagnostics.globals": [
         "vim",
         "organize_imports"
+    ],
+    "diagnostics.disable": [
+        "undefined-doc-name",
+        "deprecated",
+        "cast-local-type"
     ]
 }

@@ -2,13 +2,14 @@ local neogit = require('neogit')
 
 neogit.setup {
     disable_commit_confirmation = true,
+    disable_context_highlighting = false,
     telescope_sorter = function()
         return require("telescope").extensions.fzf.native_fzf_sorter()
     end,
     integrations = {
         telescope = true,
         diffview = true
-    }
+    },
 }
 
 vim.keymap.set("n", "gs", function()

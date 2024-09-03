@@ -1,8 +1,7 @@
--- Or with configuration
 return {
     'projekt0n/github-nvim-theme',
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+    lazy = false,  -- make sure we load this during startup if it is your main colorscheme
+    priority = -1, -- make sure to load this before all the other start plugins
     config = function()
         -- Default options
         require('github-theme').setup({
@@ -35,13 +34,17 @@ return {
                 },
                 darken = { -- Darken floating windows and sidebar-like windows
                     floats = false,
-                    sidebars = {
-                        enabled = true,
-                        list = {}, -- Apply dark background to specific windows
-                    },
                 },
                 modules = { -- List of various plugins and additional options
-                    -- ...
+                    treesitter = {
+                        enabled = false,
+                    },
+                    neogit = {
+                        enabled = true,
+                    },
+                    telescope = {
+                        enabled = true,
+                    },
                 },
             },
             palettes = {},
@@ -49,6 +52,7 @@ return {
             groups = {},
         })
 
-        vim.cmd('colorscheme github_dark')
+
+        -- vim.cmd('colorscheme github_dark')
     end,
 }

@@ -15,8 +15,16 @@ return {
 
         telescope.setup {
             defaults = {
-                path_display = { 'shorten' },
-                prompt_prefix = " "
+                prompt_prefix = " ",
+                -- path_display = {
+                --     shorten = {
+                --         len = 1,
+                --         exclude = {
+                --             1, 2, -1, -2
+                --         }
+                --     }
+                --
+                -- }
             },
             extensions = {
                 fzf = {

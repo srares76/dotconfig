@@ -10,15 +10,86 @@ return {
         },
         config = function()
             local neotest = require("neotest")
+
+            vim.keymap.set("n", "<leader>n", function()
+                local jestConfigPath = vim.fn.getcwd() .. '/jest.config.js'
+                if vim.fn.filereadable(jestConfigPath) == 1 then
+                    return jestConfigPath
+                end
+                local current_buffer_path = vim.api.nvim_buf_get_name(0)
+                local split_path = vim.split(current_buffer_path, "/")
+                local packages_index = 0
+                local package_name
+
+                for i, part in ipairs(split_path) do
+                    if part:find("packages") then
+                        packages_index = i
+                        break
+                    end
+                end
+
+                if packages_index and split_path[packages_index + 1] then
+                    package_name = split_path[packages_index + 1]
+                else
+                    package_name = nil
+                end
+                local final_path = vim.fn.getcwd() .. "/packages/" .. package_name .. '/jest.config.js'
+                print(final_path)
+                return final_path
+            end)
+
             neotest.setup({
                 adapters = {
-                    require("neotest-jest"),
+                    require("neotest-jest")({
+                        jestCommand = "yarn test",
+                        jestConfigFile = function(file)
+                            if string.find(file, "/packages/") then
+                                local current_buffer_path = vim.api.nvim_buf_get_name(0)
+                                local split_path = vim.split(current_buffer_path, "/")
+                                local packages_index = 0
+                                local package_name
+
+                                for i, part in ipairs(split_path) do
+                                    if part:find("packages") then
+                                        packages_index = i
+                                        break
+                                    end
+                                end
+
+                                if packages_index and split_path[packages_index + 1] then
+                                    package_name = split_path[packages_index + 1]
+                                else
+                                    package_name = nil
+                                end
+                                local final_path = vim.fn.getcwd() .. "/packages/" .. package_name .. '/jest.config.js'
+                            end
+
+                            return vim.fn.getcwd() .. "/jest.config.js"
+                        end,
+                        cwd = function(file)
+                            if string.find(file, "/packages/") then
+                                return string.match(file, "(.-/[^/]+/)src")
+                            end
+                            return vim.fn.getcwd()
+                        end
+                    }),
                     require("neotest-plenary").setup({
                         -- this is my standard location for minimal vim rc
                         -- in all my projects
                         min_init = "./scripts/tests/minimal.vim",
                     }),
                 },
+                require("neotest").setup({
+                    adapters = {
+                        require("neotest-go")({
+                            experimental = {
+                                test_table = true,
+                            },
+                            args = { "-count=1", "-timeout=60s" },
+                            recursive_run = true
+                        })
+                    }
+                }),
                 output = {
                     enabled = true,
                     open_on_run = "short"

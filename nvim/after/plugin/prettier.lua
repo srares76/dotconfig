@@ -4,8 +4,8 @@ if not status then
 end
 
 prettier.setup {
-    -- prettier options here
     bin = "prettierd",
+    tab_width = 4,
     filetypes = {
         "javascript",
         "typescript",
@@ -18,10 +18,24 @@ prettier.setup {
         "markdown",
         "yaml",
         "html",
-        "svelte",
         "python",
         "lua",
         "javascript.jsx",
         "typescript.tsx"
     }
 }
+
+local function get_extension(filename)
+    return filename:match("^.+%.([^.]+)$")
+end
+
+vim.keymap.set("n", "<leader>s", function()
+    local currentFileName = vim.fn.expand("%:t")
+    local file_extension = get_extension(currentFileName)
+    if (file_extension == "js") then
+        prettier.format()
+    else
+        vim.lsp.buf.format()
+    end
+    vim.cmd("wa")
+end)

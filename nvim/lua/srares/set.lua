@@ -29,13 +29,13 @@ vim.opt.updatetime = 49
 
 vim.opt.clipboard:append('unnamedplus')
 
-vim.api.nvim_create_autocmd('InsertEnter',  {
-    callback= function()
+vim.api.nvim_create_autocmd('InsertEnter', {
+    callback = function()
         vim.opt.relativenumber = false
     end,
 })
-vim.api.nvim_create_autocmd('InsertLeavePre',  {
-    callback= function()
+vim.api.nvim_create_autocmd('InsertLeavePre', {
+    callback = function()
         vim.opt.relativenumber = true
     end,
 })

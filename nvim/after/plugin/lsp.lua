@@ -5,8 +5,30 @@ require("mason").setup()
 lsp.preset("recommended")
 vim.keymap.set("n", "<leader>mi", [[:Mason<CR>]])
 
+lsp.ensure_installed({ 'tsserver', 'tailwindcss', 'lua_ls' })
+
+-- Fix Undefined global 'vim'
 lsp.nvim_workspace()
 
+function organize_imports()
+    local params = {
+        command = "_typescript.organizeImports",
+        arguments = { vim.api.nvim_buf_get_name(0) },
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+end
+
+---@diagnostic disable-next-line: lowercase-global
+function import_missing()
+    local params = {
+        command = "TypescriptAddMissingImports",
+        arguments = { vim.api.nvim_buf_get_name(0) },
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+    vim.cmd("w")
+end
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -34,19 +56,24 @@ lsp.set_preferences({
     }
 })
 
-lsp.on_attach(function(_, bufnr)
+local function on_attach(_, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
-    vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc<CR>')
-    vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-    vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-    vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts)
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+    vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+    vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set("n", "<leader>rr", "<cmd>Telescope lsp_references<CR>", opts)
     vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
-    vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
+    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
+    vim.keymap.set("n", "gt", function() vim.lsp.buf.type_definition() end, opts)
+    vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-end)
+    vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<CR>", opts)
+end
+
+lsp.on_attach(on_attach)
 
 lsp.setup()
 
@@ -54,34 +81,66 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
-function organize_imports()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = { vim.api.nvim_buf_get_name(0) },
-        title = ""
-    }
-    vim.lsp.buf.execute_command(params)
-end
+-- Global LSP client capabilities to disable showing source information
+local global_capabilities = vim.lsp.protocol.make_client_capabilities()
+---@diagnostic disable-next-line: inject-field
+global_capabilities.textDocument.diagnostic.show_source = false
 
+-- Example configurations for specific LSP servers
 local lspconfig = require('lspconfig')
 lspconfig.tailwindcss.setup {}
-lspconfig.tsserver.setup({
-    on_attach = function(client, _)
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+lspconfig.sourcekit.setup {
+    capabilities = global_capabilities,
+    on_attach = on_attach
+}
+
+lspconfig.groovyls.setup {}
+lspconfig.sqlls.setup {
+    cmd = { "sql-language-server", "up", "--method", "stdio" },      -- Command to start the SQL language server
+    filetypes = { "sql", "mysql", "plsql" },                         -- Filetypes for SQL
+    root_dir = lspconfig.util.root_pattern(".git", ".sqllsrc.json"), -- Define the root directory
+    -- settings = {
+    --     sqlls = {
+    --         connections = {
+    --             {
+    --                 driver = 'mysql',
+    --                 dataSourceName = 'root:password@tcp(127.0.0.1:3306)/your_database',
+    --             },
+    --             -- Add more database connections here if needed
+    --         }
+    --     }
+    -- },
+    on_attach = function(client, bufnr)
+        -- Your custom on_attach logic here
     end,
-    capabilities = lsp.capabilities,
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+}
+lspconfig.tsserver.setup({
+    capabilities = global_capabilities, -- Apply global capabilities
+    on_attach = function(client, _)
+        client.server_capabilities.document_formatting = false
+        client.server_capabilities.document_range_formatting = false
+        on_attach()
+    end,
+    handlers = {
+        -- Handle definition to go directly to source definition
+        ["textDocument/definition"] = function(err, result, ...)
+            result = vim.tbl_islist(result) and result[1] or result
+            vim.lsp.handlers["textDocument/definition"](err, result, ...)
+        end,
+    },
     commands = {
         OrganizeImports = {
             organize_imports,
             description = "Organize Imports"
+        },
+        ImportMissing = {
+            import_missing,
+            description = "Import missing"
         }
     }
 })
 
+-- Additional key mappings
 vim.keymap.set("n", "<leader>fo", "<cmd>lua organize_imports()<CR>")
-
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-    return
-end
+vim.keymap.set("n", "<leader>fi", "<cmd>:ImportMissing<CR>")

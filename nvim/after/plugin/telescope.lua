@@ -2,8 +2,6 @@ local builtin = require("telescope.builtin")
 local live_grep_args = require("telescope").extensions.live_grep_args
 local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
 
-vim.keymap.set("n", "<leader>F", vim.lsp.buf.format)
-
 vim.keymap.set("v", "<leader>fs", live_grep_args_shortcuts.grep_visual_selection)
 vim.keymap.set("n", "<leader>fs", live_grep_args.live_grep_args)
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
