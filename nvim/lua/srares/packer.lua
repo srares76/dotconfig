@@ -15,4 +15,8 @@ _G.camelcasemotion_key = '<leader>'
 -- Other configurations or settings can go here
 
 
-return require('lazy').setup('plugins')
+return require('lazy').setup('plugins', {
+    change_detection = {
+        notify = false,
+    }
+})

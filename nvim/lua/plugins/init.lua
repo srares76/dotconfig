@@ -1,6 +1,4 @@
 return {
-    -- 'HiPhish/rainbow-delimiters.nvim',
-
     "williamboman/mason.nvim",
     {
         "sainnhe/sonokai",
@@ -98,8 +96,6 @@ return {
                 }
             )
 
-            -- custom winbar colors start
-
             -- get color by name
             local function get_hl_color(group, attr)
                 return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
@@ -136,10 +132,6 @@ return {
             set_hl("SagaWinbar")
         end,
     },
-
-    -- Prettier
-    "jose-elias-alvarez/null-ls.nvim",
-    "MunifTanjim/prettier.nvim",
 
     -- Commentary
     {
@@ -179,8 +171,6 @@ return {
     },
     "echasnovski/mini.hipatterns",
     "itchyny/vim-cursorword",
-    "jose-elias-alvarez/typescript.nvim",
-    "luochen1990/rainbow",
     "luochen1990/rainbow",
     "chaoren/vim-wordmotion",
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -197,7 +187,4 @@ return {
     },
     'lewis6991/gitsigns.nvim',
     'mg979/vim-visual-multi',
-
-    -- DAP
-    { "rcarriga/nvim-dap-ui",                     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 }

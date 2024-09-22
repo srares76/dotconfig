@@ -11,20 +11,22 @@ return {
     },
     config = function()
         local telescope = require("telescope")
+        local actions = require("telescope.actions")
         local lga_actions = require("telescope-live-grep-args.actions")
+
+        vim.keymap.set("n", "<leader>n", function()
+            Pprint(actions)
+        end)
 
         telescope.setup {
             defaults = {
                 prompt_prefix = " ",
-                -- path_display = {
-                --     shorten = {
-                --         len = 1,
-                --         exclude = {
-                --             1, 2, -1, -2
-                --         }
-                --     }
-                --
-                -- }
+                mappings = {
+                    i = {
+                        ["<leader><Up>"] = actions.cycle_history_prev,
+                        ["<leader><Down>"] = actions.cycle_history_next
+                    }
+                }
             },
             extensions = {
                 fzf = {

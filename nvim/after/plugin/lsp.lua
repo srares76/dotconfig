@@ -3,9 +3,10 @@ local lsp = require("lsp-zero")
 require("mason").setup()
 
 lsp.preset("recommended")
+
 vim.keymap.set("n", "<leader>mi", [[:Mason<CR>]])
 
-lsp.ensure_installed({ 'tsserver', 'tailwindcss', 'lua_ls' })
+lsp.ensure_installed({ 'ts_ls', 'tailwindcss', 'lua_ls' })
 
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
@@ -75,6 +76,17 @@ end
 
 lsp.on_attach(on_attach)
 
+lsp.format_on_save({
+    format_opts = {
+        async = false,
+        timeout_ms = 10000,
+    },
+    servers = {
+        ['lua_ls'] = { 'lua' },
+        ['tsserver'] = { 'javascript', 'typescript' },
+    }
+})
+
 lsp.setup()
 
 vim.diagnostic.config({
@@ -95,30 +107,10 @@ lspconfig.sourcekit.setup {
 }
 
 lspconfig.groovyls.setup {}
-lspconfig.sqlls.setup {
-    cmd = { "sql-language-server", "up", "--method", "stdio" },      -- Command to start the SQL language server
-    filetypes = { "sql", "mysql", "plsql" },                         -- Filetypes for SQL
-    root_dir = lspconfig.util.root_pattern(".git", ".sqllsrc.json"), -- Define the root directory
-    -- settings = {
-    --     sqlls = {
-    --         connections = {
-    --             {
-    --                 driver = 'mysql',
-    --                 dataSourceName = 'root:password@tcp(127.0.0.1:3306)/your_database',
-    --             },
-    --             -- Add more database connections here if needed
-    --         }
-    --     }
-    -- },
-    on_attach = function(client, bufnr)
-        -- Your custom on_attach logic here
-    end,
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
-}
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     capabilities = global_capabilities, -- Apply global capabilities
     on_attach = function(client, _)
-        client.server_capabilities.document_formatting = false
+        client.server_capabilities.document_formatting = true
         client.server_capabilities.document_range_formatting = false
         on_attach()
     end,

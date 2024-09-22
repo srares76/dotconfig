@@ -5,7 +5,7 @@ return {
             "nvim-lua/plenary.nvim",
             "antoinemadec/FixCursorHold.nvim",
             "nvim-treesitter/nvim-treesitter",
-            "marilari88/neotest-vitest",
+            "nvim-neotest/neotest-jest",
             "nvim-neotest/neotest-plenary",
         },
         config = function()
@@ -34,12 +34,19 @@ return {
                     package_name = nil
                 end
                 local final_path = vim.fn.getcwd() .. "/packages/" .. package_name .. '/jest.config.js'
-                print(final_path)
                 return final_path
             end)
 
             neotest.setup({
                 adapters = {
+                    require("neotest-go")({
+                        experimental = {
+                            test_table = true,
+                        },
+                        args = { "-count=1", "-timeout=60s" },
+                        recursive_run = true
+                    }),
+
                     require("neotest-jest")({
                         jestCommand = "yarn test",
                         jestConfigFile = function(file)
@@ -62,6 +69,8 @@ return {
                                     package_name = nil
                                 end
                                 local final_path = vim.fn.getcwd() .. "/packages/" .. package_name .. '/jest.config.js'
+                                print(string.find(file, "/packages/.-/"))
+                                return final_path
                             end
 
                             return vim.fn.getcwd() .. "/jest.config.js"
@@ -79,17 +88,6 @@ return {
                         min_init = "./scripts/tests/minimal.vim",
                     }),
                 },
-                require("neotest").setup({
-                    adapters = {
-                        require("neotest-go")({
-                            experimental = {
-                                test_table = true,
-                            },
-                            args = { "-count=1", "-timeout=60s" },
-                            recursive_run = true
-                        })
-                    }
-                }),
                 output = {
                     enabled = true,
                     open_on_run = "short"
@@ -124,6 +122,7 @@ return {
                 neotest.output_panel.toggle() -- Toggle Output Panel
             end)
             vim.keymap.set("n", "<leader>to", function()
+                neotest.run.stop()
                 neotest.output.open()
             end)
             vim.keymap.set("n", "<leader>tx", function()

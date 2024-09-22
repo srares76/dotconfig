@@ -2,13 +2,16 @@ local neogit = require('neogit')
 
 neogit.setup {
     disable_commit_confirmation = true,
-    disable_context_highlighting = false,
+    disable_context_highlighting = true,
     telescope_sorter = function()
         return require("telescope").extensions.fzf.native_fzf_sorter()
     end,
     integrations = {
         telescope = true,
         diffview = true
+    },
+    preview_buffer = {
+        kind = "split",
     },
 }
 
