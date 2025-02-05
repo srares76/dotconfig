@@ -20,18 +20,18 @@ return {
                 liquid = { "prettier" },
                 lua = { "stylua" },
                 python = { "isort", "black" },
-            },
-            format_on_save = {
-                lsp_fallback = true,
-                async = false,
-                timeout_ms = 1000,
+                php = { { "pint", "php_cs_fixer" } },
             },
         })
 
         vim.keymap.set("n", "<leader>s", function()
+            conform.format({
+                lsp_fallback = true,
+                async = false,
+                timeout_ms = 1000,
+            })
             vim.cmd("wa")
-        end, { desc = "Save all files" })
-
+        end, { desc = "Format file or range (in visual mode) and save" })
         vim.keymap.set("n", "<leader>F", function()
             conform.format({
                 lsp_fallback = true,

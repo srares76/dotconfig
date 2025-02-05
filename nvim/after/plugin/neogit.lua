@@ -3,6 +3,7 @@ local neogit = require('neogit')
 neogit.setup {
     disable_commit_confirmation = true,
     disable_context_highlighting = true,
+    disable_signs = true,
     telescope_sorter = function()
         return require("telescope").extensions.fzf.native_fzf_sorter()
     end,
@@ -10,9 +11,11 @@ neogit.setup {
         telescope = true,
         diffview = true
     },
+    max_process_buffer_lines = 30000,
     preview_buffer = {
         kind = "split",
     },
+    kind = "tab"
 }
 
 vim.keymap.set("n", "gs", function()

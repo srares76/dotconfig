@@ -6,7 +6,7 @@ lsp.preset("recommended")
 
 vim.keymap.set("n", "<leader>mi", [[:Mason<CR>]])
 
-lsp.ensure_installed({ 'ts_ls', 'tailwindcss', 'lua_ls' })
+lsp.ensure_installed({ 'lua_ls' })
 
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
@@ -76,17 +76,6 @@ end
 
 lsp.on_attach(on_attach)
 
-lsp.format_on_save({
-    format_opts = {
-        async = false,
-        timeout_ms = 10000,
-    },
-    servers = {
-        ['lua_ls'] = { 'lua' },
-        ['tsserver'] = { 'javascript', 'typescript' },
-    }
-})
-
 lsp.setup()
 
 vim.diagnostic.config({
@@ -101,13 +90,10 @@ global_capabilities.textDocument.diagnostic.show_source = false
 -- Example configurations for specific LSP servers
 local lspconfig = require('lspconfig')
 lspconfig.tailwindcss.setup {}
-lspconfig.sourcekit.setup {
-    capabilities = global_capabilities,
-    on_attach = on_attach
-}
 
 lspconfig.groovyls.setup {}
 lspconfig.ts_ls.setup({
+    filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
     capabilities = global_capabilities, -- Apply global capabilities
     on_attach = function(client, _)
         client.server_capabilities.document_formatting = true
@@ -132,7 +118,15 @@ lspconfig.ts_ls.setup({
         }
     }
 })
-
--- Additional key mappings
-vim.keymap.set("n", "<leader>fo", "<cmd>lua organize_imports()<CR>")
-vim.keymap.set("n", "<leader>fi", "<cmd>:ImportMissing<CR>")
+lspconfig.intelephense.setup({
+    capabilities = global_capabilities,
+    on_attach = function()
+        on_attach()
+    end,
+    init_options = { licenceKey = "00G0KD8UUF391H9" },
+    settings = {
+        intelephense = {
+            format = "k&r"
+        }
+    }
+})

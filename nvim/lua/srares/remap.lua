@@ -16,6 +16,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "Q", "<nop>")
 
+-- Buffer management
 vim.keymap.set("n", "dd", [["_dd]])
 vim.keymap.set({ "v" }, "p", [["+pgvy]], { noremap = true })
 
@@ -34,4 +35,17 @@ vim.keymap.set("n", "<F1>", function() end)
 -- String Replace All
 vim.keymap.set("n", "<leader><leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- Delete all lines containing string
+vim.keymap.set("n", "<leader>ra", [[:%g/\<<C-r><C-w>\>/d<Left><Left><Left><Left>]])
+
 vim.keymap.set("i", "<Esc>", "<C-c>")
+
+-- Snippets
+vim.keymap.set("n", "<leader>jl", "oconsole.log()<Left>\"\"<Left>here<Right>, ") -- js console.log
+vim.keymap.set("n", "<leader>jcl", function()
+    local content = vim.fn.getreg("+")                                           -- get clipboard content
+    local log_statement = 'console.log("here ' .. content .. '", ' .. content .. ');'
+
+    -- move to the next line and enter insert mode
+    vim.api.nvim_feedkeys("o" .. log_statement, "n", false)
+end, { desc = "Type console.log with clipboard content" })
